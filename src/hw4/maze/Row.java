@@ -21,7 +21,7 @@ public class Row {
 		}
 		this.cellList.addAll(cellList);
 	}
-	//Prints all cells in a row.
+	//Returns a string of all cells in a row.
 	@Override
 	public String toString() {
 		if(cellList == null) {
