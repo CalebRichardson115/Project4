@@ -3,7 +3,7 @@ package hw4.maze;
 import java.util.ArrayList;
 //Grid class is an assembly of rows made into a list.
 public class Grid {
-	ArrayList<Row> rowList = new ArrayList<>();
+	public ArrayList<Row> rowList = new ArrayList<>();
 	//A grid is constructed by assembling a list of rows. 
 	public Grid(ArrayList<Row> rowList) {
 		this.rowList.addAll(rowList);
