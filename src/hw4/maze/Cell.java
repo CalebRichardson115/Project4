@@ -8,7 +8,9 @@ public class Cell {
 	CellComponents right;
 	CellComponents up;
 	CellComponents down;
-	
+	//Assuming order based on the order of the test class.
+	//Constructs a cell given different CellComponents.
+	//left right up down
 	public Cell(CellComponents left,CellComponents right, CellComponents up, CellComponents down) {
 		this.left = left;
 		this.right = right;
@@ -16,19 +18,20 @@ public class Cell {
 		this.down = down;
 	}
 
-	/*
-	public ArrayList<Cell> getCells() {
-		// TODO Auto-generated method stub
-		return null;
+	@Override
+	public String toString() {
+		return "Cell [left=" + this.getLeft() + ", right=" + this.getRight() + ", up=" + this.getUp() + ", down=" + this.getDown() + "]";
 	}
-	*/
 
-	
+	//Getters and setters for the Cell class.
 	public CellComponents getLeft() {
 		return this.left;
 	}
 	
 	public void setLeft(CellComponents left) {
+		if(left == null) {
+			return;
+		}
 		this.left = left;
 	}
 	
@@ -37,7 +40,12 @@ public class Cell {
 	}
 	
 	public void setRight(CellComponents right) {
-		this.right = right;
+		if(right == null) {
+			return;
+		}
+		else {
+			this.right = right;
+		}
 	}
 	
 	public CellComponents getUp() {
@@ -45,7 +53,12 @@ public class Cell {
 	}
 	
 	public void setUp(CellComponents up) {
-		this.up = up;
+		if(up == null) {
+			return;
+		}
+		else {
+			this.up = up;
+		}
 	}
 	
 	public CellComponents getDown() {
@@ -53,7 +66,12 @@ public class Cell {
 	}
 	
 	public void setDown(CellComponents down) {
-		this.down = down;
+		if(down == null) {
+			return;
+		}
+		else {
+			this.down = down;
+		}
 	}
 	
 }
