@@ -8,6 +8,10 @@ public class Grid {
 	public Grid(ArrayList<Row> rowList) {
 		this.rowList.addAll(rowList);
 	}
+	//Constructor to be used for the game class
+	public Grid(Grid grid) {
+		this.rowList.addAll(grid.rowList);
+	}
 	//returns the list of rows.
 	public ArrayList<Row> getRows() {
 		return this.rowList;
