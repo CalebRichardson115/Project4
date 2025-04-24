@@ -4,20 +4,18 @@ import java.util.*;
 import hw4.maze.*;
 import hw4.player.*;
 import java.util.random.*;
-
+//Game class supports movement on a grid and generates a randomized grid to play on.
 public class Game {
 	Grid grid;
 	int win;
-	//Player player;
+	Player player;
 
 	public Game(Grid grid) {
-		this.grid = new Grid(grid);
-		this.win = 0;
+		this.grid = grid;
 	}
-
+	//Retrieves the grid.
 	public Grid getGrid() {
-		Grid grid = new Grid(this.grid);
-		return grid;
+		return this.grid;
 	}
 	//Returns true when the game has been won.
 	public boolean getWin() {
@@ -34,43 +32,59 @@ public class Game {
 		if(move == null || player == null) {
 			return false;
 		}
+		
 		Cell currCell = player.getCurrentCell();
 		//Row currRow = player.getCurrentRow();
 		//Row and column to be found in the grid so that the player may move.
 		int row = -1;
 		int col = -1;
-		for(int i = 0; i < grid.rowList.size(); i++) {
-			for(int j = 0; j < grid.rowList.get(i).getCells().size() ; j++) {
-				if(grid.rowList.get(i).getCells().get(j) == currCell) {
+		for(int i = 0; i < this.getGrid().getRows().size(); i++) {
+			for(int j = 0; j < this.getGrid().getRows().get(i).getCells().size() ; j++) {
+				if(this.getGrid().getRows().get(i).getCells().get(j).equals(currCell)) {
 					row = i;
 					col = j;
 				}
 			}
 			
 		}
+		System.out.println(row +" "+ col);
 		if(col == -1 || row == -1) {
 			return false;
 		}
+		Row newRow = player.getCurrentRow();
+		Cell newCell = player.getCurrentCell();
+		
+		
 		switch(move) {
 		case UP:
-			if(player.getCurrentCell().getUp().equals(CellComponents.APERTURE) && row != 0) {
-				player = new Player(grid.getRows().get(row-1), grid.getRows().get(row-1).getCells().get(col));
+			if(player.getCurrentCell().getUp().equals(CellComponents.APERTURE)) {
+				newRow = this.getGrid().getRows().get(row-1);
+				newCell = this.getGrid().getRows().get(row-1).getCells().get(col);
+				player.setCurrentRow(newRow);
+				player.setCurrentCell(newCell);
+				System.out.println(player.toString());
 				return true;
 			}
 			else {
 				return false;
 			}
 		case DOWN:
-			if(player.getCurrentCell().getDown().equals(CellComponents.APERTURE) && row != grid.getRows().size()) {
-				player = new Player(grid.getRows().get(row+1), grid.getRows().get(row+1).getCells().get(col));
+			if(player.getCurrentCell().getDown().equals(CellComponents.APERTURE)) {
+				newRow = this.getGrid().getRows().get(row+1);
+				newCell = this.getGrid().getRows().get(row+1).getCells().get(col);
+				player.setCurrentRow(newRow);
+				player.setCurrentCell(newCell);
 				return true;
 			}
 			else {
 				return false;
 			}
 		case LEFT:
-			if(player.getCurrentCell().getLeft().equals(CellComponents.APERTURE) && col != 0 && col != grid.getRows().size()) {
-				player = new Player(grid.getRows().get(row), grid.getRows().get(row).getCells().get(col-1));
+			if(player.getCurrentCell().getLeft().equals(CellComponents.APERTURE)) {
+				newRow = this.getGrid().getRows().get(row);
+				newCell = this.getGrid().getRows().get(row).getCells().get(col-1);
+				player.setCurrentRow(newRow);
+				player.setCurrentCell(newCell);
 				return true;
 			}
 			else if(player.getCurrentCell().getLeft().equals(CellComponents.EXIT)) {
@@ -81,7 +95,12 @@ public class Game {
 				return false;
 			}
 		case RIGHT:
-			if(player.getCurrentCell().getRight().equals(CellComponents.APERTURE) && col != 0 && col != grid.getRows().size()) {
+			if(player.getCurrentCell().getRight().equals(CellComponents.APERTURE)) {
+				newRow = this.getGrid().getRows().get(row);
+				newCell = this.getGrid().getRows().get(row).getCells().get(col+1);
+				player.setCurrentCell(newCell);
+				player.setCurrentRow(newRow);
+				
 				return true;
 			}
 			else {
@@ -101,7 +120,7 @@ public class Game {
 		}
 		this.grid = new Grid(rowList);
 	}
-	
+	//Returns a string of the Game's grid.
 	@Override
 	public String toString() {
 		String string = "Game [grid=";
@@ -160,7 +179,7 @@ public class Game {
 				sideOpen = true;
 			}
 			else {
-				topOpen = false;
+				topOpen = true;
 			}
 		}
 		//Bottom left corner
@@ -198,6 +217,7 @@ public class Game {
 			if(!top && !left && !right) {
 				if(rand.nextBoolean()) {
 					left = true;
+					//right = rand.nextBoolean();
 				}
 				else {
 					right = true;
@@ -239,13 +259,13 @@ public class Game {
 				}
 				top = rand.nextBoolean();
 			}
-			if(bottom) grid.getRows().get(i).getCells().get(i).setDown(CellComponents.APERTURE);
-			if(left) grid.getRows().get(i).getCells().get(i).setLeft(CellComponents.APERTURE);
-			if(top) grid.getRows().get(i).getCells().get(i).setUp(CellComponents.APERTURE);
+			if(bottom) grid.getRows().get(i).getCells().get(n-1).setDown(CellComponents.APERTURE);
+			if(left) grid.getRows().get(i).getCells().get(n-1).setLeft(CellComponents.APERTURE);
+			if(top) grid.getRows().get(i).getCells().get(n-1).setUp(CellComponents.APERTURE);
 		}
 		//Randomize center.
-		for(int i = 1; i < n-2; i++) {
-			for(int  j = 1; j < n-2; j++) {
+		for(int i = 1; i <= n-1; i++) {
+			for(int  j = 1; j <= n-1; j++) {
 				boolean top = rand.nextBoolean();
 				boolean bottom = rand.nextBoolean();
 				boolean left = rand.nextBoolean();
@@ -274,20 +294,24 @@ public class Game {
 		grid.rowList.get(exit).getCells().get(0).setLeft(CellComponents.EXIT);
 		return grid;
 	}
-	
+	//Creates a random grid given a size n.
 	public Game(int n) {
 		this.grid = createRandomGrid(n);
 		this.win = 0;
 	}
 	//Prints the grid for the game cycle.
-	public void printGrid() {
-		ArrayList<String> returnString = new ArrayList<>();
+	public void printGrid(Player player) {
 		for(int i = 0; i < this.grid.getRows().size(); i++) {
 			ArrayList<String> strings = new ArrayList<>();
 			for(int j = 0; j < this.grid.getRows().size(); j++) {
 				if(this.grid.getRows().get(i).getCells().get(j).getLeft() == CellComponents.EXIT) strings.add("E");
-				//add player here
-				else strings.add("S");
+				else if(this.getGrid().getRows().get(i).getCells().get(j) == player.getCurrentCell() && this.grid.getRows().get(i) == player.getCurrentRow()) {
+					strings.add("A");
+					System.out.println("Found");
+				}
+				else {
+					strings.add("S");
+				}
 			}
 			System.out.println(strings);
 		}

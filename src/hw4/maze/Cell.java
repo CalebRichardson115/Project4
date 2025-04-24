@@ -1,7 +1,5 @@
 package hw4.maze;
 
-//import java.util.ArrayList;
-
 public class Cell {
 	
 	CellComponents left;
@@ -10,7 +8,6 @@ public class Cell {
 	CellComponents down;
 	//Assuming order based on the order of the test class.
 	//Constructs a cell given different CellComponents.
-	//left right up down
 	public Cell(CellComponents left,CellComponents right, CellComponents up, CellComponents down) {
 		this.left = left;
 		this.right = right;

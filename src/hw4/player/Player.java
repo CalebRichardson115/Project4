@@ -18,6 +18,14 @@ public class Player {
 	public Row getCurrentRow() {
 		return currRow;
 	}
+	
+	public void setCurrentCell(Cell cell) {
+		this.currCell = cell;
+	}
+	
+	public void setCurrentRow(Row row) {
+		this.currRow = row;
+	}
 	//Returns a string of the players' position on the grid.
 	@Override
 	public String toString() {
